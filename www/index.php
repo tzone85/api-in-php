@@ -1,43 +1,19 @@
 <?php
 
-if (!empty($_GET["name"])) {
+    $ch = curl_init();
 
-    $response = file_get_contents("https://api.agify.io?name={$_GET['name']}");
+//    curl_setopt($ch, CURLOPT_URL, "https://randomuser.me/api");
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    $data = json_decode($response, true);
+    // another way of doing the above in a curl_setopt_array where one can set up multiple curl options at once
 
-    //var_dump($data);
-    //echo $data["results"][0]["name"]["first"], "\n";
+    curl_setopt_array($ch, [
+        CURLOPT_URL => "https://randomuser.me/api",
+        CURLOPT_RETURNTRANSFER => true
+    ]);
 
-    $age = $data["age"];
+    $response = curl_exec($ch);
 
-}
+    curl_close($ch);
 
-?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Example API</title>
-</head>
-<body>
-
-<?php if (isset($age)): ?>
-    <h3>Age: </h3><?= $age ?>
-<?php endif; ?>
-
-<form action="">
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name">
-
-    <button>Guess Age</button>
-</form>
-</body>
-</html>
-
-calling api from our code
-decoding the response from json to asscoc array
-checking if the value/figure that we're looking for is within that array and returning it if it's there
+    echo $response."\n";
