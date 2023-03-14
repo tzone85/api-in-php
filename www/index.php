@@ -8,7 +8,7 @@
     // another way of doing the above in a curl_setopt_array where one can set up multiple curl options at once
 
     $headers = [
-        "Authorization: token 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"
+        "Authorization: token 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TT"
         //"User-Agent: tzone85"
     ];
 
