@@ -8,35 +8,18 @@
     // another way of doing the above in a curl_setopt_array where one can set up multiple curl options at once
 
     $headers = [
-        "Authorization: Client-ID 8oJnUkpnVPmC5tLDttLG7ELCyeNHGOM7LCFaO1sUn3A"
+        "Authorization: token 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"
+        //"User-Agent: tzone85"
     ];
 
-    $response_headers = [];
 
-    $header_callback = function($ch, $header) use (&$response_headers){
-
-        $len = strlen($header);
-
-        // if one wants to separate the header into two parts
-        $parts = explode(":", $header, 2);
-
-        if (count($parts) < 2) {
-            return $len;            // just return the length, not a valid response
-        }
-
-        // now the results
-
-        //$response_headers[] = $header;
-        $response_headers[$parts[0]] = trim($parts[1]);
-
-        return $len;
-    };
 
     curl_setopt_array($ch, [
-        CURLOPT_URL => "https://api.unsplash.com/photos/random",
+        CURLOPT_URL => "https://api.github.com/user/starred/httpie/httpie",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_HEADERFUNCTION => $header_callback
+        CURLOPT_USERAGENT => "tzone85",
+        CURLOPT_CUSTOMREQUEST => "PUT"       // DELETE or something else but must be in upper case
     ]);
 
     $response = curl_exec($ch);
@@ -48,5 +31,4 @@
 
     echo $status_code."\n";
 
-    print_r($header_callback)."\n";
     echo $response."\n";
